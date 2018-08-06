@@ -1,0 +1,4 @@
+1, https://i.imgur.com/7gKVRAP.png, naruto uzumaki, 50, 30, 20, 10, 10, 10, 20, 
+---
+1, https://i.imgur.com/7gKVRAP.png, naruto uzumaki, 50, 30, 20, 10, 10, 10, 20, 
+---
