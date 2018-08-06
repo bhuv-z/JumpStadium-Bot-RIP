@@ -168,24 +168,8 @@ If you do not know their id, type ``>charidlist`` to pull up a list of character
         except AttributeError:
             await client.send_message(message.channel, "<@%s> The command has timed out" % (userID))
                                
-    ###REQUEST CHARS END
-
-##    ###DEL CHAR - UNDER WORKS
-##    if message.content.upper() == "jDELCHAR"
-##        await client.send_message(message.channel, "Enter the **ID** of the character you would like to remove \n\
-##*If you do not know their id, either type !charidlist or !series <seriesname>*")
-##
-##        #wait for response
-##        response = await client.wait_for_message(author=message.author, timeout=30)
-##
-##        try: #check if input is a number
-##            charnum = int(float(response.content))
-##            if charnum >= 0:
-##                charlistloaded = open('charlist.txt')
-##                try:
-     ###DEL CHAR END
-
-
+    ###REQUEST CHARS EN
+    
     ###Character ID List
     if message.content.upper() == ">CHARIDLIST":
          charIDfile = open('charID.txt', 'rt')
