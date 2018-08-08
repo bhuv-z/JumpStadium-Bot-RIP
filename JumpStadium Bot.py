@@ -13,15 +13,15 @@ TOKEN = "NDc1ODQ4NzQ0NzY0NDQwNTc2.DklbWA.jvV1kJp5nMoXFsneLFeMiVuAWAI"
 Client = discord.Client()
 client = commands.Bot(command_prefix = ">")
 
-#####error loggig
-##logging.basicConfig(filename='.\console.log', filemode='w', level=logging.INFO, format='%(asctime)s:%(levelname)s:%
-# (message)s')
-##@client.event
-##async def on_error(event, *args, **kwargs):
-##    message = args[0] #Gets the message object
-##    logging.warning(traceback.format_exc()) #logs the error
-##    await client.send_message(message.channel, "You caused an error!") #send the message to the channel
-#####error logging
+####error loggig
+#logging.basicConfig(filename='.\console.log', filemode='w', level=logging.INFO, format='%(asctime)s:%(levelname)s:%
+#(message)s')
+#@client.event
+#async def on_error(event, *args, **kwargs):
+#    message = args[0] #Gets the message object
+#    logging.warning(traceback.format_exc()) #logs the error
+#    await client.send_message(message.channel, "You caused an error!") #send the message to the channel
+####error logging
 
 
 @client.event
@@ -139,17 +139,15 @@ If you do not know their id, type ``>charidlist`` to pull up a list of character
 
                 # wait for response
         response = await client.wait_for_message(author=message.author, timeout=10)
-
-        try: # check if input is a number
-            numchar = int(float(response.content))       
+        try:  # check if input is a number
+            numchar = int(float(response.content))
             if numchar > 0:
                 charalistloaded = open('charlist.txt', 'rt')
                 try:
                     # after response
                     charline = charalistloaded.read().split("\n")
-                    print(len(charline))
                     args = charline[numchar - 1].split(", ")
-                    numchar = int(float(args[0]))                
+                    numchar = int(float(args[0]))
                     img = args[1]
                     name = args[2]
                     lvl = int(float(args[3]))
@@ -162,26 +160,40 @@ If you do not know their id, type ``>charidlist`` to pull up a list of character
                     series = args[10]
 
                     dispcharembed = discord.Embed(
-                    title = '%s' % (name.upper()),
-                    colour = discord.Colour.orange()
-                    )   
+                                title='%s' % (name.upper()),
+                                colour=discord.Colour.orange()
+                            )
                     dispcharembed.set_thumbnail(url='%s' % (img))
-                    dispcharembed.add_field(name='LVL', value='%d'%(lvl), inline=True)
-                    dispcharembed.add_field(name='ATK', value='%d'%(atk), inline=True)
-                    dispcharembed.add_field(name='DEF', value='%d'%(dfnc), inline=False)
-                    dispcharembed.add_field(name='CMB Count', value='%s'%(cmb), inline=True)
-                    dispcharembed.add_field(name='JMP Count', value='%s'%(jmp), inline=True)
-                    dispcharembed.add_field(name='Dash', value='%s'%(dsh), inline=False)
-                    dispcharembed.add_field(name='Charge', value='%s'%(chrg), inline=True)
+                    dispcharembed.add_field(name='LVL', value='%d' % (lvl), inline=True)
+                    dispcharembed.add_field(name='ATK', value='%d' % (atk), inline=True)
+                    dispcharembed.add_field(name='DEF', value='%d' % (dfnc), inline=False)
+                    dispcharembed.add_field(name='CMB Count', value='%s' % (cmb), inline=True)
+                    dispcharembed.add_field(name='JMP Count', value='%s' % (jmp), inline=True)
+                    dispcharembed.add_field(name='Dash', value='%s' % (dsh), inline=False)
+                    dispcharembed.add_field(name='Charge', value='%s' % (chrg), inline=True)
                     dispcharembed.add_field(name='Series', value='%s' % (series), inline=True)
                     dispcharembed.set_footer(text='No: %03d' % (numchar))
-    
-                    await client.send_message(message.channel,embed=dispcharembed)
 
-                
+                    await client.send_message(message.channel, embed=dispcharembed)
+                    # dispcharembed = printchar(int(float(args[0])), args[1], args[2], int(float(args[3])),
+                    #                                               int(float(args[4])), int(float(args[5])), args[6], args[7], args[8],
+                    #                                               args[9], args[10])
+
+
                 except IndexError:
                     await client.send_message(message.channel, "That value doesnt exist in the databse")
-                
+
+            # elif isinstance(response, str):
+            #     charalistfile = open("charlist.txt", 'rt')
+            #     charline = charalistfile.read().split("\n")
+            #     args = []
+            #     for x in range(0, len(charline) - 1):
+            #         args[x] = charline[x].split(", ")
+            #
+            #     for x in range(2, len(args) - 1):
+            #         if response is args[2]:
+            #              # # CONTINUE HERE
+
             else:
                 await client.send_message(message.channel, "<@%s> Please enter a valid character ID" % (userID))
         except ValueError:
@@ -202,9 +214,10 @@ If you do not know their id, type ``>charidlist`` to pull up a list of character
 
 
 
-    ### Del Char - HAS INDEX ERROR (line 243)
+    ### Del Char - DO NOT USE xD
     if message.content.upper() == ">DELCHAR":
-        if "475589371773452288" in [role.id for role in message.author.roles]:
+        if "475589371773452288" or "474557125977178112" or "469766370159099904" \
+                in [role.id for role in message.author.roles]:
 
             delcharembed = discord.Embed(
                 title='Delete a Character from the Database',
@@ -228,30 +241,17 @@ If you do not know their id, type ``>charidlist`` to pull up a list of character
             if yesorno.content.upper() == "Y":
                 charalistfile = open('charlist.txt', 'r+')
                 charline = charalistfile.read().split("\n")
-                charalistfile.truncate(0)
+                charalistfile.close()
+                charalistfile = open('charlist.txt', 'w')
 
                 charidfile = open('charID.txt', 'w')
-                charidfile.truncate(0)
-                newcharline = []*(len(charline) - 1)
-                if charid > 0 & charid < len(charline):
-                    x = 1
-                    while x < len(charline):
-                        if x <= charid - 2:
-                            newcharline[x - 1] = charline[x - 1]
-                            print(len(newcharline))
-                        elif x >= charid - 1:
-                            newcharline.insert(x - 1, charline[x])
-                        x += 1
-                    print(len(newcharline))
 
-                    # for x in range(0, charid - 2):
-                    #     newcharline[x] = charline[x]
-                    # for y in range(charid, (len(charline) - 1)):
-                    #     newcharline[y - 1] = charline[y]
-                    for x in range(0, len(newcharline)):
-                        args = newcharline[x].split(", ")
-                        print(len(args))
-                        numchar = x
+                if charid > 0 & charid < len(charline):
+                    charline.pop(charid - 1)
+
+                    for x in range(0, len(charline) - 1):
+                        args = charline[x].split(", ")
+                        numchar = x + 1
                         img = args[1]
                         name = args[2]
                         lvl = int(float(args[3]))
@@ -265,24 +265,39 @@ If you do not know their id, type ``>charidlist`` to pull up a list of character
                         charalistfile.write("%3d, %s, %s, %d, %d, %d, %s, %s, %s, %s, %s, \n" % (numchar, img, name, lvl,
                                                                                             atk, dfnc, cmb, jmp, dsh,
                                                                                             chrg, series))
-                        charidfile.write("%3d. %s" % (numchar, name))
+                        charidfile.write("%3d. %s \n" % (numchar, name))
 
                 else:
                     await client.send_messge(message.channel, "You have entered an invalid ID")
                 charalistfile.close()
+                charidfile.close()
             else:
                 client.send_message(message.channel, "No character was deleted")
         else:
             await client.send_message(message.channel, "You do not have the permissions required to use that command.")
 
 
+client.run(TOKEN)
 
+###Looking for a way to have a common printembed method and calll it whenever chardata needs to be printed
+def printchar(numchar, img, name, lvl, atk, dfnc, cmb, jmp, dsh, chrg, series, ):
 
+    dispcharembed = discord.Embed(
+        title='%s' % (name.upper()),
+        colour=discord.Colour.orange()
+    )
+    dispcharembed.set_thumbnail(url='%s' % (img))
+    dispcharembed.add_field(name='LVL', value='%d' % (int(float(lvl))), inline=True)
+    dispcharembed.add_field(name='ATK', value='%d' % (int(float(atk))), inline=True)
+    dispcharembed.add_field(name='DEF', value='%d' % (int(float(dfnc))), inline=False)
+    dispcharembed.add_field(name='CMB Count', value='%s' % (cmb), inline=True)
+    dispcharembed.add_field(name='JMP Count', value='%s' % (jmp), inline=True)
+    dispcharembed.add_field(name='Dash', value='%s' % (dsh), inline=False)
+    dispcharembed.add_field(name='Charge', value='%s' % (chrg), inline=True)
+    dispcharembed.add_field(name='Series', value='%s' % (series), inline=True)
+    dispcharembed.set_footer(text='No: %03d' % (int(float(numchar))))
 
+    return dispcharembed
 
-
-
-           
-       
 
 client.run(TOKEN)
