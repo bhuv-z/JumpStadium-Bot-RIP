@@ -182,18 +182,7 @@ If you do not know their id, type ``>charidlist`` to pull up a list of character
 
                 except IndexError:
                     await client.send_message(message.channel, "That value doesnt exist in the databse")
-
-            # elif isinstance(response, str):
-            #     charalistfile = open("charlist.txt", 'rt')
-            #     charline = charalistfile.read().split("\n")
-            #     args = []
-            #     for x in range(0, len(charline) - 1):
-            #         args[x] = charline[x].split(", ")
-            #
-            #     for x in range(2, len(args) - 1):
-            #         if response is args[2]:
-            #              # # CONTINUE HERE
-
+                    
             else:
                 await client.send_message(message.channel, "<@%s> Please enter a valid character ID" % (userID))
         except ValueError:
